@@ -14,21 +14,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('base.urls')),
-    path('users/', include('users.urls')),
-    path('doctor/', include('doctor.urls')),
-    path('patient/', include('patient.urls')),
+    path("admin/", admin.site.urls),
+    path("", include("base.urls")),
+    path("users/", include("users.urls")),
+    path("doctor/", include("doctor.urls")),
+    path("patient/", include("patient.urls")),
 ]
 # The above code sets up the URL routing for the Django project, linking the admin interface and various app URLs.
 if settings.DEBUG:
-    
+
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
