@@ -145,6 +145,17 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Custom user model
 AUTH_USER_MODEL = "users.User"
 
+# Authentication settings
+LOGIN_URL = "login"  # URL name for login view (should match urls.py)
+LOGOUT_URL = "logout"  # URL name for logout view (should match urls.py)
+LOGIN_REDIRECT_URL = "home"  # URL name for home/dashboard after login (should match urls.py)
+LOGOUT_REDIRECT_URL = "login"  # URL name for login after logout (should match urls.py)
+
+
+
+
+
+
 # Messages
 
 
