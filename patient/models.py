@@ -15,7 +15,7 @@ NOTIFICATION_TYPE = (
 # Patient profile model
 # This is the Patient model that extends the User model
 class Patient(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='patient')
     image = models.FileField(upload_to="patient_images", null=True, blank=True)
     full_name = models.CharField(max_length=100, null=True, blank=True)
     mobile = models.CharField(max_length=100, blank=True, null=True)

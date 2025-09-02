@@ -1,0 +1,44 @@
+1. Homepage/Portal Access:
+Visit Website: The patient lands on the hospital's website, which serves as the main portal for accessing services.
+Sign In/Sign Up: The patient either signs in if they have an existing account or signs up for a new account by providing basic personal details.
+2. Patient Dashboard:
+View Available Services: The patient can see various services, such as booking appointments, viewing test results, accessing medical history, and more.
+Navigation: The patient selects the desired service (e.g., booking an appointment, checking reports).
+3. Appointment Booking:
+Choose Department: The patient selects a department (e.g., General Medicine, Cardiology) or a specific doctor.
+Select Date & Time: The system displays available slots based on the doctor’s schedule. The patient picks a convenient time.
+Confirm Appointment: The patient confirms the appointment. The system sends a confirmation email or SMS.
+4. Appointment Reminder:
+Automated Reminder: The system sends an automated reminder (via email/SMS) to the patient a day or a few hours before the appointment.
+5. Visit to the Hospital:
+Check-In: On the day of the appointment, the patient checks in at the hospital. They might scan a QR code or provide a booking reference at the reception.
+Patient Registration (if new): If it’s the patient’s first visit, they may need to fill out additional registration forms, either online before arrival or at the reception.
+6. Consultation:
+Consultation with Doctor: The patient meets the doctor at the scheduled time. The doctor reviews the patient’s history (accessible via the HMS) and conducts the consultation.
+Medical Records: The doctor may add notes, prescribe medication, or request tests, all of which are recorded in the HMS.
+7. Lab Tests/Diagnostics (if required):
+Test Booking: If tests are needed, the doctor orders them through the system, and the patient is directed to the lab.
+Sample Collection: The patient goes to the lab where the samples are collected.
+Test Processing: The lab processes the tests and updates the results in the HMS.
+Notification: The patient is notified when the results are ready, which they can view online.
+8. Prescription & Medication:
+E-Prescription: The doctor issues an electronic prescription, which the patient can view on their dashboard or receive as a printout.
+Pharmacy: The patient can buy the prescribed medicines from the hospital’s pharmacy or any external pharmacy by showing the e-prescription.
+9. Billing and Payment:
+Generate Bill: The system automatically generates a bill for the consultation, tests, and any other services availed.
+Payment: The patient pays the bill online via the HMS or at the hospital’s billing counter.
+Receipt: Once the payment is made, the patient receives an electronic receipt.
+10. Post-Visit:
+Follow-Up: If required, the doctor schedules a follow-up appointment, which the patient can view and confirm through their dashboard.
+Feedback: The system may prompt the patient to provide feedback on their experience.
+11. Patient History & Records:
+Medical Records: All records, including appointments, prescriptions, test results, and billing information, are stored in the patient’s profile. The patient can access these at any time.
+Data Security: The HMS ensures that all patient data is stored securely and is only accessible by authorized personnel.
+12. Administration & Reporting:
+Admin Dashboard: Hospital administrators can access the system to monitor operations, generate reports, and manage hospital resources.
+Analytics: The HMS provides analytics on patient visits, resource utilization, financial performance, and more.
+13. Emergency Services:
+Emergency Contact: The website provides a direct link or contact information for emergency services, where patients can quickly connect with hospital staff.
+14. Log Out:
+End Session: Once done, the patient logs out of their account to ensure data security.
+This flow ensures that the hospital management system provides a seamless experience for both patients and healthcare providers, optimizing efficiency, reducing paperwork, and improving overall patient care.

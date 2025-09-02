@@ -24,9 +24,12 @@ class BillingInline(admin.TabularInline):
     extra = 1
 
 class ServiceAdmin(ImportExportModelAdmin):
-    list_display = ['name', 'cost']
+    list_display = ['name', 'cost', 'status', 'publish']
     search_fields = ['name', 'description']
     filter_horizontal = ['available_doctors']
+    prepopulated_fields = {'slug': ('name',)}
+    list_editable = ['cost', 'status']
+    inlines = [AppointmentInline]
 
 class AppointmentAdmin(admin.ModelAdmin):
     list_display = ['patient', 'doctor', 'appointment_date', 'status']

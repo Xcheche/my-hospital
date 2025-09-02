@@ -1,17 +1,36 @@
+# base/models.py
+from django.utils import timezone
 from django.db import models
 from shortuuid.django_fields import ShortUUIDField
 from doctor import models as doctor_models
 from patient import models as patient_models
+from django.urls import reverse
 
 # Create your models here.
 
 # Service model for healthcare services
 # This model represents a healthcare service that can be provided by doctors
 # It includes fields for the service name, description, image, and cost.
+
+
+# Custom manager to filter published services
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Service.Status.PUBLISHED)
+    
+# Service model    
 class Service(models.Model):
+    objects = models.Manager() 
+    published = PublishedManager()  # Our custom manager.
+
+    class Status(models.TextChoices):
+        DRAFT = "DF", "Draft"
+        PUBLISHED = "PB", "Published"
     image = models.FileField(upload_to="service_images", null=True, blank=True)
     name = models.CharField(max_length=255, null=True, blank=True)
+    slug = models.SlugField(max_length=250, unique_for_date="publish")
     description = models.TextField(max_length=1000, null=True, blank=True)
+    publish = models.DateTimeField(default=timezone.now)
 
     """
     This field is used to store the doctors who provide this service.
@@ -29,6 +48,11 @@ class Service(models.Model):
     """
     cost = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
+    status = models.CharField(
+        max_length=2, choices=Status.choices, default=Status.DRAFT
+    )
+
+
     def __str__(self):
         return  f'{self.name if self.name else "Service without name" } - {self.cost if self.cost else "No cost"}'
 
@@ -36,7 +60,22 @@ class Service(models.Model):
     class Meta:
         verbose_name = "Service"
         verbose_name_plural = "Services"
-        ordering = ["-id"]
+        ordering = ['-publish']
+        indexes = [
+            models.Index(fields=['-publish']),
+        ]
+
+    def get_absolute_url(self):
+        return reverse(
+            "service_detail",
+            kwargs={
+                "year": self.publish.year,
+                "month": self.publish.month,
+                "day": self.publish.day,
+                "service_slug": self.slug,  # name "service" to match URLconf
+            },
+        )
+  
 
 # Appointment model for scheduling appointments between doctors and patients
 class Appointment(models.Model):

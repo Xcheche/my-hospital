@@ -1,0 +1,142 @@
+class User(AbstractUser):
+    USER_TYPE_CHOICES = (
+        ('patient', 'Patient'),
+        ('doctor', 'Doctor'),
+        ('admin', 'Admin'),
+        ('lab_technician', 'Lab Technician'),
+        ('pharmacist', 'Pharmacist'),
+    )
+    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.username
+
+
+class Patient(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='patient_profile')
+    date_of_birth = models.DateField()
+    gender = models.CharField(max_length=10)
+    emergency_contact = models.CharField(max_length=15, blank=True, null=True)
+    blood_group = models.CharField(max_length=3, blank=True, null=True)
+    medical_history = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+class Doctor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='doctor_profile')
+    specialization = models.CharField(max_length=100)
+    qualifications = models.TextField()
+    years_of_experience = models.PositiveIntegerField()
+    bio = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Dr. {self.user.get_full_name()}"
+
+
+
+class Service(models.Model):
+    name = models.CharField(max_length=255)
+    category = models.ForeignKey(ServiceCategory, on_delete=models.CASCADE, related_name='services')
+    description = models.TextField(blank=True, null=True)
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+    duration_minutes = models.PositiveIntegerField(help_text="Duration of the service in minutes", blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.category.name}"
+
+
+class Appointment(models.Model):
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments')
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_appointments')
+    appointment_date = models.DateTimeField()
+    symptoms = models.TextField(blank=True, null=True)
+    status = models.CharField(max_length=20, choices=[('scheduled', 'Scheduled'), ('completed', 'Completed'), ('cancelled', 'Cancelled')])
+
+    def __str__(self):
+        return f"{self.patient.get_full_name()} with {self.doctor.get_full_name()} on {self.appointment_date}"
+
+
+class MedicalRecord(models.Model):
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='medical_records')
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_medical_records')
+    diagnosis = models.TextField()
+    treatment = models.TextField()
+    prescription = models.TextField()
+    record_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Record for {self.patient.get_full_name()} on {self.record_date}"
+
+
+
+class LabTest(models.Model):
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lab_tests')
+    test_name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    result = models.TextField(blank=True, null=True)
+    test_date = models.DateTimeField()
+    status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('completed', 'Completed')])
+
+    def __str__(self):
+        return f"{self.test_name} for {self.patient.get_full_name()}"
+
+
+
+class Prescription(models.Model):
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='prescriptions')
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_prescriptions')
+    medications = models.TextField()
+    issue_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Prescription for {self.patient.get_full_name()} by {self.doctor.get_full_name()}"
+
+
+
+class Billing(models.Model):
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='billings')
+    appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE, related_name='billing', blank=True, null=True)
+    lab_test = models.OneToOneField(LabTest, on_delete=models.CASCADE, related_name='billing', blank=True, null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    billing_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=[('paid', 'Paid'), ('unpaid', 'Unpaid')])
+
+    def __str__(self):
+        return f"Billing for {self.patient.get_full_name()} - Amount: {self.amount}"
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Notification for {self.user.username} - {self.message}"
+
+
+class Pharmacy(models.Model):
+    prescription = models.ForeignKey(Prescription, on_delete=models.CASCADE, related_name='pharmacy_orders')
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pharmacy_orders')
+    pharmacist = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pharmacist_orders')
+    medications = models.TextField()
+    status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('dispensed', 'Dispensed')])
+    order_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Pharmacy order for {self.patient.get_full_name()}"
+
+
+
+class EmergencyContact(models.Model):
+    patient = models.ForeignKey(PatientProfile, on_delete=models.CASCADE, related_name='emergency_contacts')
+    name = models.CharField(max_length=100)
+    relationship = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=15)
+    email = models.EmailField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Emergency Contact for {self.patient.user.get_full_name()} - {self.name}"

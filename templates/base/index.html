@@ -1,14 +1,80 @@
-<h1>Home</h1>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="container">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-12 col-lg-7 p-4 rounded-3 bg-white">
+            <h1 class="display-4 fw-bold mt-5">
+                <span class="text-primary"><b>Extraordinary</b></span> Care is Right Here With <span
+                    class="text-primary">You.</span>
+            </h1>
+            <p class="fs-4 mt-4">Every patient is different, every smile is unique, We prioritize safety with health
+                checks, contactless check-in, enhanced PPE, and more.</p>
+            <div class="d-flex align-items-center gap-2 mt-5">
+                <button class="btn btn-primary btn-lg">Create Account <i class="fas fa-user-plus ms-1"></i></button>
+                <button class="btn btn-outline-primary btn-lg">Book Appointment <i
+                        class="fas fa-arrow-right ms-2"></i></button>
+            </div>
+        </div>
+        <div class="col-12 col-lg-5">
+            <img class="img-fluid mt-4" style="width: 100%; height: 350px; object-fit: cover; border-radius: 10px"
+                src="https://indiaeducationdiary.in/wp-content/uploads/2024/03/GettyImages-1217096099-3.jpg" alt="" />
+        </div>
+    </div>
+</section>
 
-<p>Welcome to the home page!</p>
+<section class="container mt-5">
+    <div class="py-4">
+        <h2 class="">Our Services</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, reiciendis.</p>
+    </div>
+    <div class="row">
+        {% for x in services %}
+        <div class="col-lg-3 mb-4">
+            <div class="card h-100 shadow">
+                <a href="{{ x.get_absolute_url }}">
+                    <img src="{{ x.image.url }}"
+                        alt="course" class="card-img-top" />
+                </a>
+                <div class="card-body d-flex flex-column">
+                    <h4 class="mb-2 text-truncate-line-2">
+                        <a href="{{ x.get_absolute_url }}"
+                            class="text-inherit text-dark text-decoration-none">{{ x.name }}</a>
+                    </h4>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    <div class="mt-auto">
+                        <span class="fw-semibold">Doctors Available: {{ x.available_doctors.count }}</span>
+                        <div class="lh-1 mt-3">
+                            <span class="text-dark fw-bold fs-4">${{ x.cost }}</span>
+                        </div>
+                        <a href="services-detail.html" class="btn btn-sm btn-primary mt-3">Book Appointment <i
+                                class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 
-{% if user.is_authenticated %}
-    <p>Hello, {{ user.username }}!</p>
-   <form action="{% url 'logout' %}" method="post">
-       {% csrf_token %}
-       <button type="submit">Logout</button>
-   </form>
-{% else %}
-    <a href="{% url 'login' %}">Login</a>
-    <a href="{% url 'register' %}">Sign Up</a>
-{% endif %}
+<section class="container mt-5">
+    <div class="row d-flex align-items-center">
+        <div class="col-lg-6">
+            <h1 class="fw-bold">Get Appointment Now!</h1>
+            <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus et voluptate omnis
+                accusantium. Tenetur explicabo vero quo dolore. Repudiandae itaque accusantium dolor ab. Blanditiis esse
+                tempore ut ad accusantium nihil?</p>
+
+            <div class="d-flex align-items-center gap-2 mt-5">
+                <button class="btn btn-outline-primary"><i class="fas fa-video ms-1"></i> View Services</button>
+                <button class="btn btn-primary">Create Account <i class="fas fa-user-plus ms-1"></i></button>
+                <button class="btn btn-primary">Learn More <i class="fas fa-arrow-right ms-1"></i></button>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <img src="https://www.mckenzielake.com/wp-content/uploads/2022/06/iStock-1299777111.jpg"
+                class="img-fluid rounded" style="height: 400px" alt="" />
+        </div>
+    </div>
+</section>
+{% endblock %}

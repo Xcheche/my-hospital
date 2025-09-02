@@ -15,7 +15,7 @@ NOTIFICATION_TYPE = (
 # Doctors profile model
 # This is the Doctor model that extends the User model
 class Doctor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='doctor')
     image = models.FileField(upload_to="doctor_images", null=True, blank=True)
     full_name = models.CharField(max_length=100, null=True, blank=True)
     mobile = models.CharField(max_length=100, blank=True, null=True)
@@ -24,7 +24,7 @@ class Doctor(models.Model):
     specialization = models.CharField(max_length=150, null=True, blank=True)
     qualification = models.CharField(max_length=100, null=True, blank=True)
     years_of_experience = models.CharField(max_length=100, null=True, blank=True)
-    next_availability = models.CharField(max_length=100, null=True, blank=True)
+    next_availability = models.DateField(default=date.today)
 
     def __str__(self):
         return f" Dr. {self.full_name}"
