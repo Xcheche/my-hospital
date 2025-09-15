@@ -47,8 +47,12 @@
                         <div class="lh-1 mt-3">
                             <span class="text-dark fw-bold fs-4">${{ x.cost }}</span>
                         </div>
-                        <a href="services-detail.html" class="btn btn-sm btn-primary mt-3">Book Appointment <i
+                        {% if x.available_doctors.first %}
+                        <a href="{% url 'book_appointment' service_id=x.id doctor_id=x.available_doctors.first.id %}" class="btn btn-sm btn-primary mt-3">Book Appointment <i
                                 class="fas fa-arrow-right ms-2"></i></a>
+                        {% else %}
+                        <a href="#" class="btn btn-sm btn-secondary mt-3 disabled" tabindex="-1" aria-disabled="true">No Doctors Available</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

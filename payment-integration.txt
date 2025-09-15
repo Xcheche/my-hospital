@@ -1,0 +1,70 @@
+#Sandbox accounts
+
+===Stripe===
+To get your STRIPE_SECRET_KEY and STRIPE_PUBLIC_KEY as a developer on Stripe, follow these steps:
+
+Steps to obtain Stripe API keys:
+Log into your Stripe Dashboard:
+
+Visit https://dashboard.stripe.com/
+
+Use your developer account credentials to sign in.
+
+Go to the Developers section:
+
+On the left sidebar menu, click on "Developers".
+
+Under "Developers", select "API Keys".
+
+Find your API keys:
+
+You will see two types of keys, Publishable Key (public) and Secret Key.
+
+The Publishable Key starts with pk_test_ or pk_live_. This is your STRIPE_PUBLIC_KEY.
+
+The Secret Key starts with sk_test_ or sk_live_. This is your STRIPE_SECRET_KEY.
+
+Test vs Live keys:
+
+By default, you will see Test API keys. Use these for development/local testing. Your keys will start with *_test_.
+Once ready for production switch button to live on stripe and update details and complete account for live account
+
+
+
+
+
+==============================================================================================
+Paypal
+==============================================================================================
+To get your PAYPAL_CLIENT_ID and PAYPAL_SECRET_ID (also called Secret Key) as a developer, here are the steps:
+
+Steps to Obtain PayPal Client ID and Secret Key:
+Log into PayPal Developer Dashboard:
+Go to https://developer.paypal.com/ and click on Log into Dashboard using your PayPal account.
+
+Switch environment (Sandbox or Live):
+At the top right of the dashboard, toggle between Sandbox (for testing) and Live mode (for production).
+
+Create an App:
+
+In the left menu, go to My Apps & Credentials.
+
+Under the chosen environment (Sandbox or Live), click Create App.
+
+Give your app a name (e.g., "My Project App") and click Create App.
+
+Get your credentials:
+
+After creation, you will see your Client ID and an option to reveal your Secret.
+
+Copy these values; these correspond to your PAYPAL_CLIENT_ID and PAYPAL_SECRET_ID.
+
+Notes:
+Sandbox keys are used for testing, no real transactions occur.
+
+Live keys are used for production, real money is involved.
+
+Keep the Secret Key confidential and never expose it client-side.
+
+Use these keys in your Django environment variables or config.
+
