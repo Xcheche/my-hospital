@@ -13,13 +13,20 @@ from django.urls import reverse
 # It includes fields for the service name, description, image, and cost.
 
 
-# Custom manager to filter published services
+#======= Custom manager to filter published services=======================
 class PublishedManager(models.Manager):
+    """Manager to filter published services."""
     def get_queryset(self):
         return super().get_queryset().filter(status=Service.Status.PUBLISHED)
     
-# Service model    
+
+
+
+
+    
+#============= Service model=========================    
 class Service(models.Model):
+    """Service model to represent healthcare services provided by doctors."""
     objects = models.Manager() 
     published = PublishedManager()  # Our custom manager.
 
@@ -77,8 +84,11 @@ class Service(models.Model):
         )
   
 
-# Appointment model for scheduling appointments between doctors and patients
+
+
+#========================== Appointment model for scheduling appointments between doctors and patients=================
 class Appointment(models.Model):
+    """Appointment model to handle scheduling between doctors and patients."""
     STATUS = [
         ("Scheduled", "Scheduled"),
         ("Completed", "Completed"),
@@ -119,9 +129,12 @@ class Appointment(models.Model):
             )
         ]
 
+
+
     
-# Medical Record model for appointments
+#================ Medical Record model for appointments===========================
 class MedicalRecord(models.Model):
+    """Medical Record model to handle medical records for appointments."""
     appointment = models.OneToOneField(
         Appointment, on_delete=models.CASCADE, related_name="medical_record",
         null=True, blank=True
@@ -139,8 +152,11 @@ class MedicalRecord(models.Model):
         ordering = ["-appointment__appointment_date"]
 
 
-# Lab Test model for appointments
+
+
+#==================== Lab Test model for appointments============================
 class LabTest(models.Model):
+    """Lab Test model to handle lab tests for appointments."""
     appointment = models.ForeignKey(
         Appointment, on_delete=models.CASCADE, related_name="lab_tests", null=True, blank=True
     )
@@ -157,17 +173,22 @@ class LabTest(models.Model):
         verbose_name_plural = "Lab Tests"
         ordering = ["-test_date"]       
 
-#Prescription
+
+
+#=================Prescription=============================
 class Prescription(models.Model):
+    """Prescription model to handle prescriptions for appointments."""
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
     medications = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"Prescription for {self.appointment.patient.full_name}"
     
+
     
-#Billing
+#===================Billing==============================
 class Billing(models.Model):
+    """Billing model to handle billing information for appointments."""
     patient = models.ForeignKey(
         patient_models.Patient, on_delete=models.CASCADE,  null=True, blank=True
     )

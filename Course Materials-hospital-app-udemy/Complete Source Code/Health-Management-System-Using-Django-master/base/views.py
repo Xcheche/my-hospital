@@ -150,7 +150,7 @@ def stripe_payment_verify(request, billing_id):
     else:
         return redirect(f"/payment_status/{billing.billing_id}/?payment_status=failed")
     
-
+#paypal
 def get_paypal_access_token():
     token_url = 'https://api.sandbox.paypal.com/v1/oauth2/token'
     data = {'grant_type': 'client_credentials'}

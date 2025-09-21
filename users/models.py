@@ -20,14 +20,7 @@ class User(AbstractUser):
         return self.username
     
 
-    @property
-    def user_type(self):
-        if hasattr(self, "doctor"):
-            return "Doctor"
-        elif hasattr(self, "patient"):
-            return "Patient"
-        else:
-            return "Unknown"
+  
 
     def save(self, *args, **kwargs):
         if not self.username:  # cleaner way to check if username is empty or None

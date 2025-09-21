@@ -1,5 +1,6 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
+
+<!--=================== Checkout Information======================== -->
 <section class="container">
     <div class="row d-flex justify-content-center mt-3">
         <div class="col-lg-6">
@@ -8,64 +9,72 @@
                 <div class="row">
                     <div class="col-lg-12 mb-3">
                         <label for="name" class="mb-2">Full Name</label>
-                        <input type="text" value="{{ patient.full_name }}" readonly class="form-control bg-light" />
+                        <input type="text" value="{{billing.patient.full_name}}" readonly
+                            class="form-control bg-light" />
                     </div>
                     <div class="col-lg-6 mb-3">
                         <label for="name" class="mb-2">Email</label>
-                        <input type="text" value="{{ patient.email }}" readonly class="form-control bg-light" />
+                        <input type="text" value="{{billing.patient.email}}" readonly class="form-control bg-light" />
                     </div>
                     <div class="col-lg-6 mb-3">
                         <label for="name" class="mb-2">Mobile Number</label>
-                        <input type="text" value="{{ patient.mobile }}" readonly class="form-control bg-light" />
+                        <input type="text" value="{{billing.patient.mobile}}" readonly class="form-control bg-light" />
                     </div>
                     <div class="col-lg-6 mb-3">
                         <label for="name" class="mb-2">Gender</label>
-                        <input type="text" value="{{ patient.gender }}" readonly class="form-control bg-light" />
+                        <input type="text" value="{{billing.patient.gender}}" readonly class="form-control bg-light" />
                     </div>
                     <div class="col-lg-6 mb-3">
                         <label for="name" class="mb-2">Date Of Birth</label>
-                        <input type="text" value="{{ patient.dob }}" readonly class="form-control bg-light" />
+                        <input type="text" value="{{billing.patient.dob}}" readonly class="form-control bg-light" />
                     </div>
                     <div class="col-lg-12 mb-3">
                         <label for="name" class="mb-2">Address</label>
-                        <input type="text" value="{{ patient.address }}" readonly class="form-control bg-light" />
+                        <input type="text" value="{{billing.patient.address}}" readonly class="form-control bg-light" />
                     </div>
                 </div>
             </div>
+            <!--=================== End Checkout Information======================== -->
 
+
+
+<!--=================== Doctor Description======================== -->
             <div class="shadow p-3 rounded-3 mt-4">
                 <h3 class="mb-4">Doctor Description</h3>
                 <div class="d-flex">
                     <div class="col-12 col-lg-5">
                         <img class="img-fluid mt-4"
                             style="width: 100%; height: 450px; object-fit: cover; border-radius: 10px"
-                            src="{{ billing.appointment.doctor.image.url|default:'No image' }}" alt="" />
+                            src="{{billing.appointment.doctor.image.url}}" alt="" />
                     </div>
 
                     <div class="col-12 col-lg-7 p-4 rounded-3 bg-white">
                         <h3 class="fw-bold mt-5">
-                            <span class=""><b>Dr. {{ billing.appointment.doctor.full_name|default:"" }}</b></span>
+                            <span class=""><b>Dr. {{billing.appointment.doctor.full_name}}</b></span>
                         </h3>
-                        <p class="fs-5 mt-4">{{ billing.appointment.doctor.bio|default:"" }}</p>
+                        <p class="fs-5 mt-4">{{billing.appointment.doctor.bio|default:""}}</p>
                     </div>
                 </div>
             </div>
         </div>
+<!--=================== End Doctor Description======================== -->
+
+<!--=================== Payment Information======================== -->
         <div class="col-lg-6">
             <div class="shadow p-3 rounded-3">
                 <div class="d-flex justify-content-between">
                     <p class="fw-semibold fs-5">Sub-total</p>
-                    <p class="fs-5">${{ billing.sub_total|default:0 }}</p>
+                    <p class="fs-5">${{billing.sub_total}}</p>
                 </div>
 
                 <div class="d-flex justify-content-between">
                     <p class="fw-semibold fs-5">VAT</p>
-                    <p class="fs-5">${{ billing.tax|default:0 }}</p>
+                    <p class="fs-5">${{billing.tax}}</p>
                 </div>
 
                 <div class="d-flex justify-content-between">
                     <p class="fw-bold fs-4">Total</p>
-                    <p class="fw-bold fs-4">${{ billing.total|default:0 }}</p>
+                    <p class="fw-bold fs-4">${{billing.total}}</p>
                 </div>
                 <div class="mt-4">
                     <button type="button" id="stripe-payment" class="btn text-white w-100"
@@ -77,21 +86,28 @@
         </div>
     </div>
 </section>
+<!--=================== End Payment Information======================== -->
 
-<script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&currency=USD"></script>
+
+
+<!--=========== Stripe and PayPal Integration Scripts===================== -->
+<!--===================== Stripe Payment Integration================== -->
+
+<!-- Replace "YOUR_STRIPE_PUBLIC_KEY" with your actual Stripe public key -->
+<script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&currency=USD"></script>
 <script src="https://js.stripe.com/v3/"></script>
 
 <script>
-    var stripe = Stripe("{{ stripe_public_key }}");
+    var stripe = Stripe("{{stripe_public_key}}");
     var checkoutButton = document.getElementById("stripe-payment");
 
     try {
         checkoutButton.addEventListener("click", function () {
-            var email = "EMAIL_HERE";
+            var email = "{{billing.patient.email}}";
 
             checkoutButton.innerHTML = "Processing <i class='fas fa-spinner fa-spin ms-2'></i>";
 
-            fetch("/stripe_payment/BILLING_ID_HERE/", {
+            fetch("/stripe_payment/{{billing.billing_id}}/", {
                 method: "POST",
                 body: JSON.stringify({ email: email }),
             })
@@ -115,6 +131,11 @@
     }
 </script>
 
+<!--===================== End Stripe Payment Integration================== -->
+
+
+<!--===================== PayPal Button Integration================================ -->
+<!-- Replace "YOUR_PAYPAL_CLIENT_ID" with your actual PayPal client ID -->
 <script>
     function initPayPalButton() {
         paypal
@@ -153,7 +174,7 @@
     }
     initPayPalButton();
 </script>
-
+<!--===================== End PayPal Button Integration======================== -->
 
 
 {% endblock %}

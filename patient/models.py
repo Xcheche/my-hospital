@@ -6,6 +6,8 @@ from users.models import User
 
 # Create your models here.
 
+
+# Choices for notification types
 NOTIFICATION_TYPE = (
     ("Appointment Scheduled", "Appointment Scheduled"),
     ("Appointment Cancelled", "Appointment Cancelled"),
@@ -13,8 +15,9 @@ NOTIFICATION_TYPE = (
 
 
 # Patient profile model
-# This is the Patient model that extends the User model
+#============== This is the Patient model that extends the User model================
 class Patient(models.Model):
+    """Patient model to extend the User model with additional fields specific to patients."""
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='patient')
     image = models.FileField(upload_to="patient_images", null=True, blank=True)
     full_name = models.CharField(max_length=100, null=True, blank=True)
@@ -35,8 +38,9 @@ class Patient(models.Model):
         ordering = ["-id"]
 
 
-# Notification model for patient
+#================== Notification model for patient=========================
 class Notification(models.Model):
+    """Notification model to handle notifications for patients."""
     patient = models.ForeignKey(
         Patient, on_delete=models.SET_NULL, null=True,  related_name="patient_notifications", blank=True
     )

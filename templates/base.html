@@ -13,15 +13,24 @@
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
     </head>
     <body>
-       
+       <!--=================== Navbar ======================= -->
         {% include 'partials/alert.html' %}
      {% include 'partials/navbar.html' %}
-   
+   <!--=================== End Navbar ======================= -->
+
+
+
+   <!--===================  Content ======================= -->
 {% block content %} {% endblock %}
+<!--=================== End Content ======================= -->
 
 
+<!--=================== Footer ======================= -->
 {% include 'partials/footer.html' %}
+<!--=================== End Footer ======================= -->
 
+
+<!--=================== Scripts ======================= -->
 <script>
     //for alerts or django messages
         window.onload = function () {
